@@ -17,21 +17,10 @@
 # along with XP-CMake.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# Instructs the compiler to generate optimized code for the host CPU (if compiler supports this).
-macro(Compiler_OptForHost)
-	#TODO: currently only CXX
-	if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") #gcc
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
-	endif()
-endmacro()
-
-macro(Compiler_SetCompileDefinitions)
-	#TODO: currently evaluating only CXX compiler
-	if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") #gcc
-		add_definitions(-DXPC_COMPILER_GCC)
-	elseif(MSVC)
-		add_definitions(-DXPC_COMPILER_MSVC)
+macro(OS_SetCompileDefinitions)
+	if(WIN32)
+		add_definitions(-DXPC_OS_WINDOWS)
 	else()
-		message(FATAL_ERROR "unknown compiler")
+		message(FATAL_ERROR "unknown operating system")
 	endif()
 endmacro()

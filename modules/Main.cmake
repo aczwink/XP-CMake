@@ -17,8 +17,31 @@
 # along with XP-CMake.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-macro(XPC_SetAllDefinitions)
-	Compiler_SetDefinitions()
-	CPU_SetDefinitions()
-	OS_SetDefinitions()
+macro(XPC_AutoBuildType)
+	#debug or release
+	if(CMAKE_BUILD_TYPE MATCHES Debug)
+		add_definitions(-D_DEBUG)
+		
+		set(CMAKE_DEBUG_POSTFIX "_d")
+	elseif(CMAKE_BUILD_TYPE MATCHES Release)
+		#ok
+	else()
+		message(FATAL_ERROR "Unknown build type. Must be either 'Debug' or 'Release'")
+	endif()
+endmacro()
+
+
+macro(XPC_OptForHost)
+	#reset to host in case this was changed
+	set(CMAKE_SYSTEM_PROCESSOR "${CMAKE_HOST_SYSTEM_PROCESSOR}")
+	set(CMAKE_SYSTEM_NAME "${CMAKE_HOST_SYSTEM_NAME}")
+	
+	Compiler_OptForHost()
+endmacro()
+
+
+macro(XPC_SetCompileDefinitions)
+	Compiler_SetCompileDefinitions()
+	CPU_SetCompileDefinitions()
+	OS_SetCompileDefinitions()
 endmacro()
