@@ -1,5 +1,5 @@
-get_filename_component(_IMPORT_PREFIX "${CMAKE_CURRENT_LIST_FILE}" PATH)
-set(_IMPORT_DIR ${_IMPORT_PREFIX}/modules)
+get_filename_component(_XPC_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(_IMPORT_DIR ${_XPC_DIR}/modules)
 file(GLOB_RECURSE _MODULE_FILES "${_IMPORT_DIR}/*.cmake")
 foreach(f ${_MODULE_FILES})
 	include("${f}")
