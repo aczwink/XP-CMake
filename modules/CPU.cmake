@@ -20,7 +20,9 @@
 function(CPU_GetArchitecture result)
 	set(${result} "unknown" PARENT_SCOPE)
 	
-	if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "AMD64") #windows
+	if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
+		set(${result} "x86_64" PARENT_SCOPE)
+	elseif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "AMD64") #windows
 		set(${result} "x86_64" PARENT_SCOPE)
 	endif()
 endfunction()
