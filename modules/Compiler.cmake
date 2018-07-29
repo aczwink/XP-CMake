@@ -22,6 +22,8 @@ macro(Compiler_OptForHost)
 	#TODO: currently only CXX
 	if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") #gcc
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
+	elseif(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 	endif()
 endmacro()
 

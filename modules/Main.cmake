@@ -21,7 +21,7 @@ macro(XPC_AutoBuildType)
 	#debug or release
 	if(CMAKE_BUILD_TYPE MATCHES Debug)
 		add_definitions(-D_DEBUG)
-		
+
 		set(CMAKE_DEBUG_POSTFIX "_d")
 	elseif(CMAKE_BUILD_TYPE MATCHES Release)
 		#ok
@@ -35,8 +35,9 @@ macro(XPC_OptForHost)
 	#reset to host in case this was changed
 	set(CMAKE_SYSTEM_PROCESSOR "${CMAKE_HOST_SYSTEM_PROCESSOR}")
 	set(CMAKE_SYSTEM_NAME "${CMAKE_HOST_SYSTEM_NAME}")
-	
+
 	Compiler_OptForHost()
+	CPU_OptForHost()
 endmacro()
 
 
