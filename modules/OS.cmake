@@ -20,6 +20,13 @@
 macro(OS_SetCompileDefinitions)
 	if(WIN32)
 		add_definitions(-DXPC_OS_WINDOWS)
+		
+		#this method works only for all the defined versions until Windows 10 (i.e. 0x0A00)
+		#for later versions this will probably fail
+		set(version ${CMAKE_SYSTEM_VERSION})
+        string(REGEX REPLACE "^([0-9a-fA-F])[.]([0-9a-fA-F]).*" "0\\10\\2" version ${version})
+		set(version "0x${version}")
+		add_definitions(-D_WIN32_WINNT=${version})
 	elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 		add_definitions(-DXPC_OS_LINUX)
 	elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")

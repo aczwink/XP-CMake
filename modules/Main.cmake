@@ -35,6 +35,7 @@ macro(XPC_OptForHost)
 	#reset to host in case this was changed
 	set(CMAKE_SYSTEM_PROCESSOR "${CMAKE_HOST_SYSTEM_PROCESSOR}")
 	set(CMAKE_SYSTEM_NAME "${CMAKE_HOST_SYSTEM_NAME}")
+	set(CMAKE_SYSTEM_VERSION "${CMAKE_HOST_SYSTEM_VERSION}")
 
 	Compiler_OptForHost()
 	CPU_OptForHost()
