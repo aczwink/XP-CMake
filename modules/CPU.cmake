@@ -48,6 +48,14 @@ function(CPU_GetHostFeatures result)
 		string(TOLOWER "${cpuinfo}" cpuinfolower)
 		separate_arguments(cpuinfolower)
 		set(${result} ${cpuinfolower} PARENT_SCOPE)
+	elseif(WIN32)
+		try_run(runResult compileResult "${CMAKE_BINARY_DIR}" "${_XPC_DIR}/scripts/CPU_DetectHostFeatures_x86_windows.c" COMPILE_OUTPUT_VARIABLE compileOut RUN_OUTPUT_VARIABLE runOut)
+		
+		ASSERT( ${compileResult} TRUE "Compilation of CPU_DetectHostFeatures_x86_windows failed: ${compileOut}")
+		ASSERT( ${runResult} 0 "Running CPU_DetectHostFeatures_x86_windows failed")
+		
+		separate_arguments(runOut)		
+		set(${result} ${runOut} PARENT_SCOPE)
 	else()
 		message(FATAL_ERROR "unknown operating system: ${CMAKE_SYSTEM_NAME}")
 	endif()
@@ -122,22 +130,3 @@ macro(CPU_SetCompileDefinitions)
 		add_definitions(-DXPC_ENDIANNESS_BIG)
 	endif()
 endmacro()
-
-
-
-
-
-
-
-
-
-
-
-function(CPU_DetectHostArchitecture archResult)
-	try_run(runResult compileResult "${CMAKE_BINARY_DIR}" "${_XPC_DIR}/scripts/CPU_DetectHostArchitecture.c" COMPILE_OUTPUT_VARIABLE compileOut RUN_OUTPUT_VARIABLE runOut)
-
-	ASSERT( ${compileResult} TRUE "Compilation of CPU_DetectHostArchitecture failed")
-	ASSERT( ${runResult} 0 "Running CPU_DetectHostArchitecture failed")
-
-	set(${archResult} ${runOut} PARENT_SCOPE)
-endfunction()
