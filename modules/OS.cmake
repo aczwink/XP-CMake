@@ -17,15 +17,38 @@
 # along with XP-CMake.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+function(dec2hex dec result)
+	if (${dec} LESS 10)
+		set(${result} "0${dec}" PARENT_SCOPE)
+	elseif(${dec} EQUAL 10)
+		set(${result} "0A" PARENT_SCOPE)
+	elseif(${dec} EQUAL 11)
+		set(${result} "0B" PARENT_SCOPE)
+	elseif(${dec} EQUAL 12)
+		set(${result} "0C" PARENT_SCOPE)
+	elseif(${dec} EQUAL 13)
+		set(${result} "0D" PARENT_SCOPE)
+	elseif(${dec} EQUAL 14)
+		set(${result} "0E" PARENT_SCOPE)
+	elseif(${dec} EQUAL 15)
+		set(${result} "0F" PARENT_SCOPE)
+	else()
+		message(fatal_error "Invalid input.")
+	endif()
+endfunction()
+
 macro(OS_SetCompileDefinitions)
 	if(WIN32)
 		add_definitions(-DXPC_OS_WINDOWS)
 		
-		#this method works only for all the defined versions until Windows 10 (i.e. 0x0A00)
-		#for later versions this will probably fail
 		set(version ${CMAKE_SYSTEM_VERSION})
-        string(REGEX REPLACE "^([0-9a-fA-F])[.]([0-9a-fA-F]).*" "0\\10\\2" version ${version})
-		set(version "0x${version}")
+        string(REGEX REPLACE "^([0-9]+)[.]([0-9]+).*" "\\1" versionMajor ${version})
+		string(REGEX REPLACE "^([0-9]+)[.]([0-9]+).*" "\\2" versionMinor ${version})
+		
+		dec2hex(${versionMajor} versionMajor)
+		dec2hex(${versionMinor} versionMinor)
+		
+		set(version "0x${versionMajor}${versionMinor}")
 		add_definitions(-D_WIN32_WINNT=${version})
 	elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 		add_definitions(-DXPC_OS_LINUX)
