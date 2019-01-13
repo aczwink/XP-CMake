@@ -23,6 +23,8 @@ macro(XPC_AutoBuildType)
 		add_definitions(-D_DEBUG)
 
 		set(CMAKE_DEBUG_POSTFIX "_d")
+	elseif(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
+		#ok profiling
 	elseif(CMAKE_BUILD_TYPE MATCHES Release)
 		#ok
 	else()
