@@ -25,6 +25,7 @@ macro(XPC_AutoBuildType)
 		set(CMAKE_DEBUG_POSTFIX "_d")
 	elseif(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
 		#ok profiling
+		set(CMAKE_RELWITHDEBINFO_POSTFIX "_p")
 	elseif(CMAKE_BUILD_TYPE MATCHES Release)
 		#ok
 	else()
