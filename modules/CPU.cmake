@@ -48,6 +48,16 @@ function(CPU_GetHostFeatures result)
 		string(TOLOWER "${cpuinfo}" cpuinfolower)
 		separate_arguments(cpuinfolower)
 		set(${result} ${cpuinfolower} PARENT_SCOPE)
+	elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+		file(READ "/proc/cpuinfo" cpuinfo)
+		string(REGEX REPLACE ".*flags[ \t]*:[ \t]*([a-zA-Z0-9_ ]+).*" "\\1" cpuinfoflags ${cpuinfo})
+		string(TOLOWER "${cpuinfoflags}" cpuinfolower)
+		separate_arguments(cpuinfolower)
+		
+		#sse4_1 is special
+		LIST_REPLACE(cpuinfolower "sse4_1" "sse4.1")
+		
+		set(${result} ${cpuinfolower} PARENT_SCOPE)
 	elseif(WIN32)
 		try_run(runResult compileResult "${CMAKE_BINARY_DIR}" "${_XPC_DIR}/scripts/CPU_DetectHostFeatures_x86_windows.c" COMPILE_OUTPUT_VARIABLE compileOut RUN_OUTPUT_VARIABLE runOut)
 		
@@ -128,5 +138,19 @@ macro(CPU_SetCompileDefinitions)
 		add_definitions(-DXPC_ENDIANNESS_LITTLE)
 	else()
 		add_definitions(-DXPC_ENDIANNESS_BIG)
+	endif()
+endmacro()
+
+
+
+
+
+#internal
+macro(LIST_REPLACE list find replace)
+	list(FIND ${list} ${find} find_idx)
+	if(find_idx GREATER -1)
+		list(INSERT ${list} ${find_idx} ${replace})
+		MATH(EXPR __INDEX "${find_idx} + 1")
+		list(REMOVE_AT ${list} ${__INDEX})
 	endif()
 endmacro()
