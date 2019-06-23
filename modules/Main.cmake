@@ -29,7 +29,7 @@ macro(XPC_AutoBuildType)
 	elseif(CMAKE_BUILD_TYPE MATCHES Release)
 		#ok
 	else()
-		message(FATAL_ERROR "Unknown build type. Must be either 'Debug' or 'Release'")
+		message(FATAL_ERROR "Unknown build type. Must be either 'Debug', 'RelWithDebInfo' or 'Release'")
 	endif()
 endmacro()
 
