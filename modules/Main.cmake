@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+# Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 #
 # This file is part of XP-CMake.
 #
@@ -20,16 +20,15 @@
 macro(XPC_AutoBuildType)
 	#debug or release
 	if(CMAKE_BUILD_TYPE MATCHES Debug)
-		add_definitions(-D_DEBUG)
-
+		add_definitions(-DXPC_BUILDTYPE_DEBUG)
 		set(CMAKE_DEBUG_POSTFIX "_d")
 	elseif(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
-		#ok profiling
+		add_definitions(-DXPC_BUILDTYPE_PROFILING)
 		set(CMAKE_RELWITHDEBINFO_POSTFIX "_p")
 	elseif(CMAKE_BUILD_TYPE MATCHES Release)
-		#ok
+		add_definitions(-DXPC_BUILDTYPE_RELEASE)
 	else()
-		message(FATAL_ERROR "Unknown build type. Must be either 'Debug' or 'Release'")
+		message(FATAL_ERROR "Unknown build type. Must be either 'Debug', 'RelWithDebInfo' (Profiling) or 'Release'")
 	endif()
 endmacro()
 
