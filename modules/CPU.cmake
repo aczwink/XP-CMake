@@ -50,7 +50,7 @@ function(CPU_GetHostFeatures result)
 		set(${result} ${cpuinfolower} PARENT_SCOPE)
 	elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 		file(READ "/proc/cpuinfo" cpuinfo)
-		string(REGEX REPLACE ".*flags[ \t]*:[ \t]*([a-zA-Z0-9_ ]+).*" "\\1" cpuinfoflags ${cpuinfo})
+		string(REGEX REPLACE ".*[\r\n][ \t]*flags[ \t]*:[ \t]*([a-zA-Z0-9_ ]+).*" "\\1" cpuinfoflags ${cpuinfo})
 		string(TOLOWER "${cpuinfoflags}" cpuinfolower)
 		separate_arguments(cpuinfolower)
 		
